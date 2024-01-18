@@ -1,0 +1,11 @@
+name: rdc_project
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - duckdb
+    - streamlit
+    - plotly
+    - python-dotenv
+  - numpy
+  - pandas
