@@ -13,7 +13,8 @@ Then the conda environment schould be activated in the terminal before working o
 conda activate rdc_project
 ```
 
-[Link to official conda documentation for more info:]([Managing environments &#8212; conda 23.11.1.dev56 documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html))
+Link to official conda documentation for more info:
+([Managing environments &#8212; conda 23.11.1.dev56 documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html))
 
 This project should by run with a .env file in the directory, containing the url of the google sheet:
 
@@ -26,3 +27,4 @@ The streamlit server can be started locally with:
 ```python
 streamlit run app.py
 ```
+([Streamlit Documentation](https://docs.streamlit.io/))
