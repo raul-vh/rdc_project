@@ -46,4 +46,4 @@ From the terminal run:
 docker-compose up -d --build
 ```
 
-The app can be acces on http://0.0.0.0/ aka http://localhost:80http://0.0.0.0/
+The app can be acces on http://0.0.0.0:88 aka http://localhost:88
