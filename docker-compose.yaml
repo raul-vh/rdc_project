@@ -1,0 +1,34 @@
+version: "3.9"
+networks:
+  default:
+    driver: bridge
+  t2_proxy:
+    name: t2_proxy
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.90.0/24
+        
+services:
+  app:
+    build: .
+    container_name: app
+    command: streamlit run app.py
+    networks:
+      - t2_proxy
+    ports:
+      - 80:8501
+    volumes:
+      - .:/app
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.wachtwoorden-rtr.entrypoints=https"
+      - "traefik.http.routers.wachtwoorden-rtr.rule=Host(`wachtwoorden.$DOMAINNAME_CLOUD_SERVER`)"
+      - "traefik.http.routers.wachtwoorden-rtr.tls=true"
+      ## Middlewares
+      # - "traefik.http.routers.portainer-rtr.middlewares=chain-basic-auth@file"
+      - "traefik.http.routers.wachtwoorden-rtr.middlewares=chain-no-auth@file"
+      ## HTTP Services
+      - "traefik.http.routers.wachtwoorden-rtr.service=uptime-kuma-svc"
+      - "traefik.http.services.wachtwoorden-svc.loadbalancer.server.port=8501" # 3001 is default port for uptime kuma
