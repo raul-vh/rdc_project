@@ -7,5 +7,6 @@ dependencies:
     - streamlit
     - plotly
     - python-dotenv
+    - streamlit-option-menu
   - numpy
   - pandas
