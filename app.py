@@ -105,7 +105,6 @@ def oplossingen_vergelijkbaare_ww_kwijtraken(df):
         pie_chart(df, "Raakt u wel eens wachtwoorden kwijt?")
     return
 
-
 def pie_chart(df, column_name):
     """
     Prints pie chart for specific column name
@@ -174,6 +173,20 @@ if __name__ == "__main__":
     if selected == "Inleiding":
         with open('text/inleiding.md', 'r') as inleiding:
             st.markdown(inleiding.read())
+        st.write(
+            f"""
+            Om deze vraag te beantwoorden gaan we eerst in op de bedreigingen die er zijn.
+            Vervolgens dragen we een aantal mogelijke oplossingen aan.
+            We eindigen met de best practicies rondom wachtwoordgebruik die mensen kunnen toepassen.
+            Om deze best practices te onderbouwen en om beter te begrijpen welke normen en waarden ten grondslag liggen aan het gedrag van mensen, 
+            hebben wij een enquête gemaakt die is ingevuld door {df.index.size} participanten.
+            Deze enquête bevat vragen over wachtwoordgebruik, beveiliging van wachtwoorden en persoonlijke meningen over dit onderwerp.
+            \n\n
+            Laten we beginnen met wat beschrijvende statestiek van deze resultaten.
+            \n\n
+            ## Beschrijvende statestiek van de enquêteresultaten
+            """
+        )
         descriptives_survey(df)
     elif selected == "De bedreigingen":
         with open('text/bedreigingen1.md', 'r') as bedreigingen1:
@@ -221,16 +234,92 @@ if __name__ == "__main__":
         pie_chart(df, "Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)")
 
     elif selected == "Best practices":
-        st.header("Best practices")
-        st.markdown("### Veiligheid vs Gebruiksgemak")
-        st.markdown("### Normen en waarden")
-        st.write("Nothing to hide, but everything to protect. \n\n Bewustwording")
-        st.markdown("### Opsomming van de best practices")
-        st.write("- PM \n\n - 2FA \n\n - wachtwoorden regelmatig veranderen \n\n - nog toevoegen")
-        st.markdown("### Random password generator")
+        st.markdown("# Best practices")
+        with open("text/best_practices1.md", 'r') as best_practices1:
+            st.markdown(best_practices1.read())
+
+        st.markdown("#### Random password generator")
         st.write("Genereert willekeurige wachtwoorden met hoofdletters, kleine letters, cijfers en symbolen.")
         length = st.slider("Lengte van wachtwoord")
         st.write("**Uw willekeurig gegenereerde wachtwoord is:**", f"{password_generator(length)}")
+        with open("text/best_practices2.md", 'r') as best_practices2:
+            st.markdown(best_practices2.read())
+
+        st.markdown("# Normen en waarden")
+
+        # Oude code
+        color_order = ['Ja', 'Ik gebruik de password manager in mij browser.', 'Nee']
+        fig1 = px.histogram(df, x="Hoe groot is het probleem van het managen van wachtwoorden voor u, ten opzichte van het grootste probleem in uw leven?", 
+                    color="Gebruikt u een password manager?",
+                    histfunc="count",
+                    color_discrete_sequence=['#dc143c','#cd5c5c', '#ffa07a'],
+                    category_orders={"Gebruikt u een password manager?": color_order})
+
+        fig1.update_xaxes(range=[1, 10])
+        fig1.update_layout(title_text='Groote probleem wachtwoorden en Password Manager Gebruik')
+        fig1.update_xaxes(title_text='Hoe groot het probleem van het managen van wachtwoorden voor individu is. (Op schaal van 1 tot 10)')
+        fig1.update_yaxes(title_text='Aantal respondenten')
+
+        st.plotly_chart(fig1, theme="streamlit")
+
+        grouped = df.groupby(['Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)', 'Bent u wel eens gehackt?']).size().reset_index(name='count')
+
+        # Calculate percentages hacked for each 2FA group
+        grouped['percent_hacked'] = grouped.groupby('Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)')[['count']].transform(lambda x: x/x.sum()*100)
+
+        # Create bar chart 
+        fig2 = px.bar(grouped, x='Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)', y='percent_hacked', color='Bent u wel eens gehackt?',
+                    color_discrete_map={True: '#dc143c', False: '#ffa07a'},
+                    labels={'Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)': 'Gebruik 2FA', 
+                            'percent_hacked': '% Hacked'},
+                    title='Percentage gehackte mensen bij 2FA gebruik.')
+
+        fig2.update_yaxes(range=[0,100])
+        fig2.update_traces(texttemplate='%{y:.1f}%', textposition='outside')
+        st.plotly_chart(fig2, theme="streamlit")
+
+        plot_df = df.groupby(['Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)', 
+                        'Bent u wel eens gehackt?'])['Leeftijd'].count().reset_index(name='Count')
+
+        # Create plot 
+        fig3 = px.bar(plot_df, x='Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)', 
+                y='Count', color='Bent u wel eens gehackt?', barmode='group',
+                color_discrete_map={True: '#d14343', False: '#ffa07a'},
+                labels={'Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)': 'Gebruik 2FA',
+                        'Count': 'Aantal respondenten'},
+                title='2FA Gebruik en gehackt worden.')
+
+        fig3.update_xaxes(type='category')
+        st.plotly_chart(fig3, theme="streamlit")
+
+        fig4 = px.scatter(df,  
+                    x="In hoeverre maak u zich zorgen om uw digitale veiligheid/privacy?",
+                    y="Zou u bereid zijn om extra stappen te nemen, zoals het gebruik van encryptietools, om uw digitale privacy te waarborgen?",
+                    labels={'In hoeverre maak u zich zorgen om uw digitale veiligheid/privacy?':'Bezorgdheid over digitale privacy',
+                            'Zou u bereid zijn om extra stappen te nemen, zoals het gebruik van encryptietools, om uw digitale privacy te waarborgen?':'Bereidheid om extra stappen te nemen voor privacy'},
+                    title='Relatie tussen bezorgdheid over privacy en bereidheid om encryptie te gebruiken')
+
+        st.plotly_chart(fig4, theme="streamlit")
+
+        fig5 = px.scatter(df,  
+                    x="In hoeverre maak u zich zorgen om uw digitale veiligheid/privacy?",
+                    y="Stelling: Ik heb niks te verbergen.\n\nIn hoeverre bent u het eens met de stelling?",
+                    labels={'In hoeverre maak u zich zorgen om uw digitale veiligheid/privacy?':'Bezorgdheid over digitale privacy',
+                            'Stelling: Ik heb niks te verbergen.\n\nIn hoeverre bent u het eens met de stelling?':'Ik heb niks te verbergen.'},
+                    title='Relatie tussen bezorgdheid over privacy en stelling: Ik heb niks te verbergen.')
+
+        st.plotly_chart(fig5, theme="streamlit")
+
+        st.write("**Creert een score van 0 tot 4 gebasseerd op de eerste vier vragen**\n\n Raakt u wel eens wachtwoorden kwijt?\n\n Heeft u vergelijkbare wachtwoorden die u op meerdere plekken gebruikt?\n\n Gebruikt u een password manager?\n\n Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)")
+        fig6 = px.scatter(df,  
+                    x="Leeftijd",
+                    y="Score",
+                    labels={'Leeftijd':'Leefdtijd',
+                            'Score':'Score wachtwoordgebruik: 0 = laag, 4 = hoog'},
+                    title='Relatie tussen leeftijd en wachtwoordgebruik.')
+
+        st.plotly_chart(fig6, theme="streamlit")
 
     with open('text/bronnen.md', 'r') as bronnen:
         st.markdown(bronnen.read())
+    

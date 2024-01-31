@@ -12,9 +12,3 @@ Dit roept vragen op over hoe mensen zich in het algemeen kunnen beschermen tegen
 ---
 
 ## Beschermen tegen een datalek, kan dat? En, hoe?
-
-Om deze vraag te beantwoorden gaan we eerst in op de bedreigingen die er zijn. Vervolgens dragen we een aantal mogelijke oplossingen aan. We eindigen met de best practicies rondom wachtwoordgebruik die mensen kunnen toepassen. Om deze best practices te onderbouwen en om beter te begrijpen welke normen en waarden ten grondslag liggen aan het gedrag van mensen, hebben wij een enquête gemaakt die is ingevuld door x participanten. Deze enquête bevat vragen over wachtwoordgebruik, beveiliging van wachtwoorden en persoonlijke meningen over dit onderwerp.
-
-Laten we beginnen met wat beschrijvende statestiek van deze resultaten.
-
-## Beschrijvende statestiek van de enquêteresultaten
