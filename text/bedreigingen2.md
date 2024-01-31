@@ -1,0 +1,3 @@
+Een hash is een eenrichtingsfunctie, wat betekent dat het mogelijk is om gegevens (zoals een wachtwoord) te transformeren naar een vaste reeks tekens, maar het is niet mogelijk om deze hash terug te zetten naar het oorspronkelijke wachtwoord. Dit mechanisme biedt beveiliging, omdat zelfs als de hashwaarde wordt blootgesteld, het moeilijk is om het oorspronkelijke wachtwoord te achterhalen.
+
+Toegang wordt alleen verleend wanneer de gebruiker zowel de juiste gebruikersnaam als het correcte wachtwoord invoert. Deze moeten samen leiden tot dezelfde hashwaarde als die in de database is opgeslagen, waardoor de gebruiker toegang krijgt.

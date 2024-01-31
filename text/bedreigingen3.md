@@ -1,0 +1,6 @@
+Wanneer je weet dat wachtwoorden gehasht zijn, lijkt het misschien alsof er weinig reden tot bezorgdheid is. "Kan geen kwaad, toch?" denk je wellicht. Echter is dit niet het geval.
+
+### Brute forcing
+Een van de meest voorkomende methoden bij een dergelijke aanval is brute force. Dit is een techniek waarbij aanvallers systematisch verschillende combinaties proberen om achter een wachtwoord te komen (Fortinet, 2023). Er zijn verschillende vormen van brute force-aanvallen zoals bijvoorbeeld de "Dictionary attack". Hierbij worden (combinaties van) woorden uit een woordenboek systematisch uitgeprobeerd als mogelijke wachtwoorden. Een andere methode is social engineering, waarbij aanvallers proberen wachtwoorden te raden op basis van persoonlijke informatie, zoals namen van huisdieren, familieleden, of combinaties daarvan. Het is ook mogelijk om door elke mogelijke combinatie van letters, cijfers en symbolen te gaan. Dit wordt ook wel een "Simple Brute Force Attack" genoemd.
+
+Dus, hoewel het hashen van wachtwoorden een extra laag van beveiliging biedt, is het van essentieel belang om bewust te blijven van potentiële risico's en actieve beschermingsmaatregelen te nemen om een mogelijke hack van de database te voorkomen.

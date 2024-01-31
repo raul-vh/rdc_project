@@ -92,6 +92,20 @@ def descriptives_survey(df):
         st.plotly_chart(fig4, theme="streamlit")
     return
 
+def oplossingen_vergelijkbaare_ww_kwijtraken(df):
+    """
+    Prints pie chart for the columns:
+    Heeft u vergelijkbare wachtwoorden die u op meerdere plekken gebruikt?
+    Raakt u wel eens wachtwoorden kwijt?
+    """
+    col1, col2 = st.columns(2, gap="medium")
+    with col1:
+        pie_chart(df, "Heeft u vergelijkbare wachtwoorden die u op meerdere plekken gebruikt?")
+    with col2:
+        pie_chart(df, "Raakt u wel eens wachtwoorden kwijt?")
+    return
+
+
 def pie_chart(df, column_name):
     """
     Prints pie chart for specific column name
@@ -158,38 +172,52 @@ if __name__ == "__main__":
         orientation="horizontal",
     )
     if selected == "Inleiding":
-        st.header("Inleiding")
-        st.write("- Text van empirisch voorbeeld.\n\n- Introductie onderzoek en enquete.")
+        with open('text/inleiding.md', 'r') as inleiding:
+            st.markdown(inleiding.read())
         descriptives_survey(df)
     elif selected == "De bedreigingen":
-        st.header("De bedreigingen")
-        st.markdown("### Hoe wachtwoorden worden opgeslagen?")
+        with open('text/bedreigingen1.md', 'r') as bedreigingen1:
+            st.markdown(bedreigingen1.read())
+        st.markdown("## Hoe wachtwoorden worden opgeslagen? \n\n Een wachtwoord is feitelijk niets anders dan een combinatie van een gebruikersnaam en een hash. Als je het juiste wachtwoord invoert, krijg je toegang, anders niet.")
         opgeslagen_ww = pd.DataFrame({
             "Username": ["Alice", "Bob"],
             "Password hash": ["5f4dcc3b5aa765d61d8327deb882cf99", "482c811da5d5b4bc6d497ffa98491e38"]})
         st.write(opgeslagen_ww)
-        st.markdown("### Als een database gehackt wordt.")
+        with open('text/bedreigingen2.md', 'r') as bedreigingen2:
+            st.markdown(bedreigingen2.read())
+        st.markdown("## Als een database gehackt wordt.")
         fig1 = px.pie(df, names="Bent u ooit bewust geworden van een datalek waarbij uw gegevens zijn vrijgegeven?", values="Score", title="Bent u ooit bewust geworden van een datalek waarbij uw gegevens zijn vrijgegeven?")
         fig1.update_traces(textposition='inside', textinfo='percent+label')
         st.plotly_chart(fig1, theme="streamlit")
-        st.markdown("### Bruteforcing")
+        with open('text/bedreigingen3.md', 'r') as bedreigingen3:
+            st.markdown(bedreigingen3.read())
         fig2 = px.pie(df, names="Bent u wel eens gehackt?", values="Score", title="Bent u wel eens gehackt?")
         fig2.update_traces(textposition='inside', textinfo='percent+label')
         st.plotly_chart(fig2, theme="streamlit")
-    elif selected == "De oplossingen":
-        st.header("De oplossingen")
-        st.markdown("### Wat maakt een wachtwoord sterk?")
-        pie_chart(df, "Heeft u vergelijkbare wachtwoorden die u op meerdere plekken gebruikt?")
 
-        st.write("**Check hier hoe snel uw wachtwoord gekraakt kan worden.** \n\n Gebasserd op snelheden van een enkele Nvidia RTX 4090 GPU die voor ongeveer 2000 euro te koop is.")
+        
+    elif selected == "De oplossingen":
+        st.markdown("# De oplossingen")
+        st.markdown("## Gebruik sterke wachtwoorden.")
+        with open('text/oplossingen1.md', 'r') as oplossingen1:
+            st.markdown(oplossingen1.read())
+        st.write(
+            """
+            #### Check hier hoe snel uw wachtwoord gekraakt kan worden met brute forcing \n\n
+            Gebasserd op snelheden van een enkele Nvidia RTX 4090 GPU (videokaart) die voor ongeveer 2000 euro te koop is (Pires, 2022). \n\n
+            Dit is een videokaart die wordt gebruikt om games te spelen. \n\n
+            De meeste hackers zullen waarschijnlijk nog geadvanceerde GPU's gebruiken!
+            """)
         wachtwoord = st.text_input("Vul hier het te testen wachtwoord in:" )
         st.write("**Zo snel wordt dit wachtwoord gekraakt in.**",password_crack_time_checker(wachtwoord))
-        st.markdown("### Hoe onthoud je sterke wachtwoorden?")
-        pie_chart(df, "Raakt u wel eens wachtwoorden kwijt?")
-        st.write("Text over de oplossing: Passwordt manager")
+        
+        st.markdown("## Hoe onthoud je sterke wachtwoorden?")
+        oplossingen_vergelijkbaare_ww_kwijtraken(df)
+        with open('text/oplossingen2.md', 'r') as oplossingen2:
+            st.markdown(oplossingen2.read())
         pie_chart(df, "Gebruikt u een password manager?")
-        st.markdown("### Wat als mijn wachwoord dan toch gehackt wordt? --> 2FA")
-        st.write("- iets dat je weet (wachtwoord)\n\n- iets dat je bezit(security key, telefoon met OTP)\n\n- iets dat je eigen is(vingerafdruk, gezichtsherkenning)")
+        with open('text/oplossingen3.md', 'r') as oplossingen3:
+            st.markdown(oplossingen3.read())
         pie_chart(df, "Gebruikt u tweestapsverificatie naast uw wachtwoord? (Bijvoorbeeld: SMS, OTP, security key, vingerafdruk)")
 
     elif selected == "Best practices":
@@ -203,3 +231,6 @@ if __name__ == "__main__":
         st.write("Genereert willekeurige wachtwoorden met hoofdletters, kleine letters, cijfers en symbolen.")
         length = st.slider("Lengte van wachtwoord")
         st.write("**Uw willekeurig gegenereerde wachtwoord is:**", f"{password_generator(length)}")
+
+    with open('text/bronnen.md', 'r') as bronnen:
+        st.markdown(bronnen.read())
