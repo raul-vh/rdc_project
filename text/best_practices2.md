@@ -16,3 +16,6 @@ Educatie over de risico's van zwakke wachtwoorden en phishingaanvallen kan mense
 
 ---
 
+# Normen en waarden
+Het is interessant om te kijken naar de normen en waarden omtrent privacy van de respondenten van de enquête. Door dit te visualiseren, krijgen we inzicht in de persoonlijke overtuigingen van de deelnemers met betrekking tot privacy. Het biedt niet alleen begrip van hoe zij privacy percipiëren, maar het kan ook verklaringen bieden voor bepaalde keuzes of attitudes die ze hebben ten aanzien van wachtwoordgebruik en beveiliging.
+            
