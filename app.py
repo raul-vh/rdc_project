@@ -291,6 +291,8 @@ if __name__ == "__main__":
         histogram(df, "Hoe belangrijk vind u het om de controle te hebben over wie toegang heeft tot uw persoonlijke informatie online?")
         histogram(df, "Zou u bereid zijn om extra stappen te nemen, zoals het gebruik van encryptietools, om uw digitale privacy te waarborgen?")
         histogram(df, "Hoe belangrijk vind u het om te weten hoe bedrijven en organisaties omgaan met uw persoonlijke gegevens?")
+        with open("text/conclusie.md", 'r') as conclusie:
+            st.markdown(conclusie.read())
 
     with open('text/bronnen.md', 'r') as bronnen:
         st.markdown(bronnen.read())
