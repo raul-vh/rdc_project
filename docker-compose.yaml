@@ -17,8 +17,8 @@ services:
     restart: always
     networks:
       - t2_proxy
-    ports:
-      - 88:8501
+    ports: #  Disable specification when deploying in production
+      - 88:8501 #  Disable specification when deploying in production
     volumes:
       - .:/app
     labels:
