@@ -12,13 +12,13 @@ networks:
 services:
   app:
     build: .
-    container_name: app
+    container_name: rdc_project
     command: streamlit run app.py
     restart: always
     networks:
       - t2_proxy
-    ports: #  Disable specification when deploying in production
-      - 88:8501 #  Disable specification when deploying in production
+    # ports: #  Disable specification when deploying in production
+      # - 88:8501 #  Disable specification when deploying in production
     volumes:
       - .:/app
     labels:
